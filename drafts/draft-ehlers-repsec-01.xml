@@ -1,0 +1,129 @@
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" version="3" ipr="trust200902" category="info" docName="draft-ehlers-repsec-01" xml:lang="en">
+<front>
+<title abbrev="RepSec">Reputation Security Protocol (RepSec)</title>
+<author initials="R." surname="Ehlers" fullname="Ralph Ehlers">
+<organization>PastWipe S.L.</organization>
+<address>
+<postal>
+<city>Marbella</city>
+<region>Malaga</region>
+<country>Spain</country>
+</postal>
+<email>info@pastwipe.com</email>
+</address>
+</author>
+<date year="2025" month="September"/>
+<abstract>
+<t>RepSec defines an interoperable signaling layer for exchanging signed reputation and revocation assertions alongside data. This -01 updates field names, clarifies security considerations, and aligns references for xml2rfc v3.</t>
+</abstract>
+</front>
+<middle>
+<section anchor="intro" numbered="true">
+<name>Introduction</name>
+<t>RepSec provides portable assertions of provenance, reputation, and revocation to complement existing transports and application protocols.</t>
+</section>
+<section anchor="terminology" numbered="true">
+<name>Terminology</name>
+<t>
+The key words
+<bcp14>MUST</bcp14>
+,
+<bcp14>MUST NOT</bcp14>
+,
+<bcp14>REQUIRED</bcp14>
+,
+<bcp14>SHALL</bcp14>
+,
+<bcp14>SHALL NOT</bcp14>
+,
+<bcp14>SHOULD</bcp14>
+,
+<bcp14>SHOULD NOT</bcp14>
+,
+<bcp14>RECOMMENDED</bcp14>
+,
+<bcp14>NOT RECOMMENDED</bcp14>
+,
+<bcp14>MAY</bcp14>
+, and
+<bcp14>OPTIONAL</bcp14>
+are to be interpreted as described in
+<xref target="RFC2119"/>
+and
+<xref target="RFC8174"/>
+.
+</t>
+</section>
+<section anchor="arch" numbered="true">
+<name>Protocol Overview</name>
+<t>RepSec defines three roles:</t>
+<ul>
+<li>
+<t>
+<em>Issuer</em>
+: produces signed assertions.
+</t>
+</li>
+<li>
+<t>
+<em>Presenter</em>
+: attaches assertions to exchanges.
+</t>
+</li>
+<li>
+<t>
+<em>Verifier</em>
+: validates and enforces policy.
+</t>
+</li>
+</ul>
+<t>Encodings: JSON/CBOR. Signatures: JOSE/COSE. Transport bindings: HTTPS and message queues.</t>
+</section>
+<section anchor="security" numbered="true">
+<name>Security Considerations</name>
+<t>
+Implementations
+<bcp14>MUST</bcp14>
+validate signatures, freshness, and consult revocation lists. TLS 1.3
+<xref target="RFC8446"/>
+is RECOMMENDED.
+</t>
+</section>
+<section anchor="iana" numbered="true">
+<name>IANA Considerations</name>
+<t>This document has no IANA actions.</t>
+</section>
+</middle>
+<back>
+<references>
+<name>Normative References</name>
+<reference anchor="RFC2119" target="https://www.rfc-editor.org/rfc/rfc2119">
+<front>
+<title>Key words for use in RFCs to Indicate Requirement Levels</title>
+<author initials="S." surname="Bradner" fullname="Scott Bradner"/>
+<date year="1997" month="March"/>
+</front>
+<seriesInfo name="BCP" value="14"/>
+<seriesInfo name="RFC" value="2119"/>
+</reference>
+<reference anchor="RFC8174" target="https://www.rfc-editor.org/rfc/rfc8174">
+<front>
+<title>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</title>
+<author initials="B." surname="Leiba" fullname="Barry Leiba"/>
+<date year="2017" month="May"/>
+</front>
+<seriesInfo name="BCP" value="14"/>
+<seriesInfo name="RFC" value="8174"/>
+</reference>
+<reference anchor="RFC8446" target="https://www.rfc-editor.org/rfc/rfc8446">
+<front>
+<title>The Transport Layer Security (TLS) Protocol Version 1.3</title>
+<author initials="E." surname="Rescorla" fullname="Eric Rescorla"/>
+<date year="2018" month="August"/>
+</front>
+<seriesInfo name="RFC" value="8446"/>
+</reference>
+</references>
+</back>
+</rfc>
