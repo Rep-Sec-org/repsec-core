@@ -1,0 +1,139 @@
+This XML file does not appear to have any style information associated with it. The document tree is shown below.
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude" version="3" ipr="trust200902" category="info" docName="draft-ehlers-repsec-nru-00" xml:lang="en">
+<front>
+<title abbrev="RepSec-NRU">RepSec Non-Reusable Data Extension (NRU)</title>
+<author initials="R." surname="Ehlers" fullname="Ralph Ehlers">
+<organization>PastWipe S.L.</organization>
+<address>
+<postal>
+<city>Marbella</city>
+<region>Malaga</region>
+<country>Spain</country>
+</postal>
+<email>info@pastwipe.com</email>
+</address>
+</author>
+<date year="2025" month="September"/>
+<abstract>
+<t>NRU specifies one-time, cryptographically bound tokens that couple a dataset identifier to a requester context. Replayed or stolen datasets fail verification in the RepSec layer, preventing unauthorized reuse.</t>
+</abstract>
+</front>
+<middle>
+<section anchor="intro" numbered="true">
+<name>Introduction</name>
+<t>NRU binds a one-time verification token to four inputs:</t>
+<ul>
+<li>
+<t>
+<em>dataset_id</em>
+</t>
+</li>
+<li>
+<t>
+<em>requester_id</em>
+</t>
+</li>
+<li>
+<t>
+<em>ts</em>
+(issuance time)
+</t>
+</li>
+<li>
+<t>
+<em>nonce</em>
+(random)
+</t>
+</li>
+</ul>
+<t>Stolen copies fail verification because tokens are single-use and time-bound.</t>
+</section>
+<section anchor="reqs" numbered="true">
+<name>Requirements</name>
+<t>
+Implementations
+<bcp14>MUST</bcp14>
+satisfy these requirements:
+</t>
+<ul>
+<li>
+<t>Generate signed one-time tokens.</t>
+</li>
+<li>
+<t>Validate freshness and reject reuse.</t>
+</li>
+<li>
+<t>Consult revocation lists for compromised tokens.</t>
+</li>
+</ul>
+</section>
+<section anchor="format" numbered="true">
+<name>Token Format</name>
+<t>COSE_Sign1 payload fields are defined as follows.</t>
+<dl newline="false">
+<dt>dataset_id</dt>
+<dd>tstr or bstr.</dd>
+<dt>requester_id</dt>
+<dd>tstr.</dd>
+<dt>ts</dt>
+<dd>int (UNIX time).</dd>
+<dt>nonce</dt>
+<dd>bstr (96-bit).</dd>
+<dt>exp</dt>
+<dd>int (absolute expiry).</dd>
+</dl>
+<t>Ed25519 signatures are RECOMMENDED.</t>
+</section>
+<section anchor="verify" numbered="true">
+<name>Verification and Revocation</name>
+<t>
+Verifiers
+<bcp14>MUST</bcp14>
+check signature validity, single-use, freshness, and absence on a signed revocation manifest.
+</t>
+</section>
+<section anchor="security" numbered="true">
+<name>Security Considerations</name>
+<t>
+TLS 1.3
+<xref target="RFC8446"/>
+is RECOMMENDED for transport. Reliable time sources are REQUIRED.
+</t>
+</section>
+<section anchor="iana" numbered="true">
+<name>IANA Considerations</name>
+<t>No IANA actions.</t>
+</section>
+</middle>
+<back>
+<references>
+<name>Normative References</name>
+<reference anchor="RFC2119" target="https://www.rfc-editor.org/rfc/rfc2119">
+<front>
+<title>Key words for use in RFCs to Indicate Requirement Levels</title>
+<author initials="S." surname="Bradner" fullname="Scott Bradner"/>
+<date year="1997" month="March"/>
+</front>
+<seriesInfo name="BCP" value="14"/>
+<seriesInfo name="RFC" value="2119"/>
+</reference>
+<reference anchor="RFC8174" target="https://www.rfc-editor.org/rfc/rfc8174">
+<front>
+<title>Ambiguity of Uppercase vs Lowercase in RFC 2119 Key Words</title>
+<author initials="B." surname="Leiba" fullname="Barry Leiba"/>
+<date year="2017" month="May"/>
+</front>
+<seriesInfo name="BCP" value="14"/>
+<seriesInfo name="RFC" value="8174"/>
+</reference>
+<reference anchor="RFC8446" target="https://www.rfc-editor.org/rfc/rfc8446">
+<front>
+<title>The Transport Layer Security (TLS) Protocol Version 1.3</title>
+<author initials="E." surname="Rescorla" fullname="Eric Rescorla"/>
+<date year="2018" month="August"/>
+</front>
+<seriesInfo name="RFC" value="8446"/>
+</reference>
+</references>
+</back>
+</rfc>
