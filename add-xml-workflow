@@ -1,0 +1,51 @@
+name: Validate & Render IETF Drafts
+
+on:
+  push:
+    paths:
+      - "drafts/**/*.xml"
+      - ".github/workflows/repsec-xml-validate.yml"
+  pull_request:
+    paths:
+      - "drafts/**/*.xml"
+      - ".github/workflows/repsec-xml-validate.yml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Install xml2rfc
+        run: |
+          python -m pip install --upgrade pip
+          pip install xml2rfc
+
+      - name: Validate & render drafts
+        run: |
+          set -e
+          mkdir -p out
+          shopt -s nullglob
+          for f in drafts/*.xml drafts/**/*.xml; do
+            base="$(basename "$f" .xml)"
+            echo "Processing $f"
+            # Render TXT
+            xml2rfc "$f" --text --out "out/${base}.txt"
+            # Render HTML
+            xml2rfc "$f" --html --out "out/${base}.html"
+          done
+          ls -la out
+
+      - name: Upload artifacts (TXT/HTML)
+        uses: actions/upload-artifact@v4
+        with:
+          name: repsec-draft-renders
+          path: out/
+          if-no-files-found: error
